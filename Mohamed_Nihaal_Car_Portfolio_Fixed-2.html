@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohamed Nihaal - Car Video Editor</title>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+:root{--bg:#050816;--blue:#00d4ff;--purple:#b829dd;--pink:#ff2d95;--glass:rgba(255,255,255,.055);--border:rgba(255,255,255,.11);--muted:rgba(255,255,255,.58);--success:#00ff88;--danger:#ff4444}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,Arial,sans-serif;background:var(--bg);color:#fff;min-height:100vh;overflow:hidden}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.bg{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.12;animation:float 12s ease-in-out infinite}
+.b1{width:420px;height:420px;background:var(--blue);right:-120px;top:-120px}
+.b2{width:350px;height:350px;background:var(--purple);left:-120px;bottom:-120px;animation-delay:-4s}
+.b3{width:280px;height:280px;background:var(--pink);left:40%;top:40%;opacity:.05;animation-delay:-8s}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-30px) scale(1.1)}}
+
+.app{display:flex;height:100vh;position:relative;z-index:2}
+.sidebar{width:240px;min-width:240px;padding:32px 20px;background:var(--glass);backdrop-filter:blur(20px);border-right:1px solid var(--border);display:flex;flex-direction:column}
+.logo{font-size:30px;font-weight:800;letter-spacing:3px;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
+.logo-sub{font-size:9px;letter-spacing:3px;color:rgba(255,255,255,.35);margin-bottom:40px}
+.nav{display:flex;flex-direction:column;gap:5px}
+.nav button{padding:12px 15px;border-radius:10px;border:1px solid transparent;background:none;color:rgba(255,255,255,.5);text-align:left;font-size:14px}
+.nav button:hover,.nav button.active{color:#fff;background:rgba(255,255,255,.06);border-color:rgba(0,212,255,.2)}
+.side-bottom{margin-top:auto;padding-top:20px;border-top:1px solid var(--border)}
+.social{display:flex;justify-content:center;gap:8px;margin-bottom:15px}
+.social a{width:36px;height:36px;border-radius:10px;border:1px solid var(--border);background:var(--glass);display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none}
+.hire{width:100%;padding:12px;border:0;border-radius:10px;color:#fff;font-weight:700;background:linear-gradient(135deg,var(--blue),var(--purple))}
+.main{flex:1;overflow:hidden}
+.track{display:flex;height:100%;transition:transform .65s cubic-bezier(.25,.46,.45,.94)}
+.section{min-width:100%;height:100%;overflow-y:auto;padding:40px 48px}
+.hero{min-height:100%;display:flex;align-items:center;gap:60px}
+.hero-left{flex:1}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:8px 15px;border-radius:20px;color:var(--blue);background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);font-size:11px;margin-bottom:22px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--success)}
+.hero h1{font-size:60px;line-height:1.08;margin-bottom:12px}
+.gradient{display:block;background:linear-gradient(135deg,var(--blue),var(--purple),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-title{font-size:20px;color:rgba(255,255,255,.7);margin-bottom:15px}
+.hero p{max-width:560px;color:var(--muted);line-height:1.7;font-size:14px;margin-bottom:28px}
+.buttons{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:35px}
+.btn{padding:14px 25px;border-radius:10px;font-weight:600;font-size:14px}
+.primary{border:0;color:#fff;background:linear-gradient(135deg,var(--blue),var(--purple))}
+.secondary{background:var(--glass);border:1px solid var(--border);color:#fff}
+.stats{display:flex;gap:38px}
+.stat strong{display:block;font-size:30px;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px}
+.hero-profile{width:340px;height:340px;border-radius:50%;overflow:hidden;border:3px solid rgba(0,212,255,.3);box-shadow:0 0 60px rgba(0,212,255,.15),0 25px 70px rgba(0,0,0,.6);position:relative;flex-shrink:0;background:linear-gradient(135deg,#10152f,#070a19)}
+.hero-profile img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.profile-placeholder{height:100%;display:flex;align-items:center;justify-content:center;font-size:85px;font-weight:800;background:linear-gradient(135deg,#111a3c,#080b18);color:rgba(255,255,255,.18)}
+.title{font-size:36px;font-weight:800;margin-bottom:8px}
+.subtitle{color:var(--muted);font-size:13px;margin-bottom:30px}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{padding:25px;background:var(--glass);border:1px solid var(--border);border-radius:16px;backdrop-filter:blur(16px);transition:.3s;position:relative}
+.card:hover{transform:translateY(-5px);border-color:rgba(0,212,255,.25)}
+.card h3{font-size:16px;margin-bottom:12px}
+.card p{color:var(--muted);font-size:13px;line-height:1.7}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}
+.tag{padding:6px 12px;border-radius:20px;color:var(--blue);background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.15);font-size:11px}
+
+.projects{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.project{overflow:hidden;background:var(--glass);border:1px solid var(--border);border-radius:16px;cursor:pointer;transition:.4s;position:relative}
+.project:hover{transform:translateY(-7px);border-color:rgba(0,212,255,.3);box-shadow:0 20px 45px rgba(0,0,0,.4)}
+.thumb{height:220px;position:relative;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,rgba(0,212,255,.2),#0a0f2e);overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.car{font-size:75px;opacity:.3}
+.play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);font-size:20px}
+.watch{position:absolute;right:12px;bottom:12px;padding:5px 9px;border-radius:5px;background:rgba(0,0,0,.6);font-size:9px}
+.project-info{padding:18px}
+.project-info h4{font-size:15px;margin-bottom:5px}
+.project-info p{color:rgba(255,255,255,.4);font-size:11px}
+.project-meta{display:flex;justify-content:space-between;margin-top:12px}
+.project-tag{color:var(--blue);font-size:9px;padding:5px 9px;border-radius:6px;background:rgba(0,212,255,.08)}
+
+.skills{max-width:760px;display:grid;grid-template-columns:1fr 1fr;gap:25px}
+.skill{margin-bottom:20px}
+.skill-head{display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px}
+.skill-head b{color:var(--blue)}
+.bar{height:6px;background:rgba(255,255,255,.07);border-radius:5px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:5px}
+
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.stars{color:#ffd700;margin-bottom:12px}
+.review-text{color:rgba(255,255,255,.6);font-size:12px;line-height:1.7;margin-bottom:18px}
+.author{display:flex;align-items:center;gap:10px}
+.avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--blue),var(--purple));font-weight:700}
+
+.contacts{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.contact{padding:25px 15px;text-align:center;background:var(--glass);border:1px solid var(--border);border-radius:16px;color:#fff;text-decoration:none;transition:.3s}
+.contact:hover{transform:translateY(-5px);border-color:rgba(0,212,255,.3)}
+.contact-icon{font-size:25px;margin-bottom:12px}
+.contact h4{font-size:14px;margin-bottom:5px}
+.contact p{color:var(--muted);font-size:10px;word-break:break-word}
+.contact-cta{margin-top:25px;padding:35px;text-align:center;border:1px solid var(--border);border-radius:16px;background:linear-gradient(135deg,rgba(0,212,255,.05),rgba(184,41,221,.05))}
+.contact-cta h3{font-size:23px;margin-bottom:8px}
+.contact-cta p{color:var(--muted);font-size:13px;margin-bottom:20px}
+
+.admin-toggle{position:fixed;top:15px;right:15px;z-index:999;padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:var(--glass);backdrop-filter:blur(10px);color:#fff;font-size:12px;font-weight:600}
+.admin-bar{position:fixed;top:0;left:0;right:0;height:48px;background:linear-gradient(90deg,#17172b,#111d38);border-bottom:1px solid var(--border);display:none;align-items:center;justify-content:space-between;padding:0 20px;z-index:998;font-size:12px}
+.admin-bar.active{display:flex}
+.admin-bar span{color:var(--success);font-weight:700}
+.admin-bar .acts{display:flex;gap:8px}
+.admin-bar button{padding:7px 13px;border-radius:6px;border:0;font-size:11px;font-weight:700}
+.btn-save{background:var(--success);color:#000}
+.btn-export{background:var(--blue);color:#000}
+.btn-close{background:var(--danger);color:#fff}
+
+.admin-btn{display:none;position:absolute;top:8px;width:30px;height:30px;border-radius:7px;border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.65);color:#fff;align-items:center;justify-content:center;z-index:10}
+.admin-btn.edit{right:44px}.admin-btn.del{right:8px}
+.admin-btn:hover{background:var(--blue);color:#000}
+.admin-btn.del:hover{background:var(--danger);color:#fff}
+.admin-mode .admin-btn{display:flex}
+.admin-add-btn{display:none;margin-top:15px;padding:13px;border-radius:10px;border:1px dashed var(--blue);background:rgba(0,212,255,.05);color:var(--blue);font-weight:700;width:100%}
+.admin-mode .admin-add-btn{display:block}
+
+.video-modal{position:fixed;inset:0;background:rgba(0,0,0,.94);display:none;align-items:center;justify-content:center;z-index:2000;padding:20px;flex-direction:column}
+.video-modal.active{display:flex}
+.video-box-wrap{position:relative;width:100%;max-width:900px}
+.video-box{width:100%;aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+.video-box iframe,.video-box video{width:100%;height:100%;border:0;display:block}
+.video-close{position:absolute;top:-45px;right:0;background:none;border:0;color:#fff;font-size:32px}
+.video-fallback{text-align:center;padding:15px 0}
+.video-fallback p{color:var(--muted);font-size:12px;margin-bottom:12px}
+.video-fallback a{display:inline-block;padding:10px 18px;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;text-decoration:none;border-radius:8px;font-size:12px;font-weight:700}
+
+.admin-modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:2001;padding:20px}
+.admin-modal.active{display:flex}
+.admin-form{background:#0f1225;border:1px solid var(--border);border-radius:16px;padding:25px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
+.admin-form h3{font-size:18px;margin-bottom:16px;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
+.admin-form label{display:block;font-size:11px;color:var(--muted);margin:13px 0 6px}
+.admin-form input,.admin-form textarea,.admin-form select{width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:#fff;outline:none}
+.admin-form textarea{min-height:80px;resize:vertical}
+.admin-form input:focus,.admin-form textarea:focus{border-color:var(--blue)}
+.admin-form .acts{display:flex;gap:10px;margin-top:20px}
+.admin-form .acts button{flex:1;padding:11px;border-radius:8px;border:0;font-weight:700}
+.form-ok{background:var(--success);color:#000}.form-no{background:var(--glass);border:1px solid var(--border)!important;color:#fff}
+.file-note{font-size:10px;color:rgba(255,255,255,.4);margin-top:6px;line-height:1.5}
+
+.mobile-nav{display:none}
+.toast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;background:#10182a;border:1px solid var(--border);padding:11px 17px;border-radius:10px;font-size:12px;z-index:5000;transition:.3s}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:900px){
+.sidebar{display:none}
+.mobile-nav{position:fixed;display:flex;left:0;right:0;bottom:0;height:68px;background:rgba(5,8,22,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);justify-content:space-around;align-items:center;z-index:100}
+.mobile-nav button{border:0;background:none;color:rgba(255,255,255,.45);font-size:9px;padding:7px 10px;border-radius:9px}
+.mobile-nav button.active{color:var(--blue);background:rgba(0,212,255,.08)}
+.mobile-nav span{display:block;margin-top:3px}
+.section{padding:28px 20px 90px}
+.hero{flex-direction:column;justify-content:center;text-align:center;gap:25px}
+.hero-left{display:flex;flex-direction:column;align-items:center}
+.hero h1{font-size:38px}.hero-title{font-size:17px}.hero-profile{width:220px;height:220px}
+.stats{justify-content:center;gap:25px}.stat strong{font-size:25px}
+.about-grid,.skills,.projects,.reviews{grid-template-columns:1fr}
+.contacts{grid-template-columns:1fr 1fr}
+.title{font-size:30px}
+.admin-toggle{top:auto;bottom:80px;right:12px}
+.admin-bar{top:auto;bottom:0;height:62px}
+.admin-bar span{display:none}
+}
+@media(max-width:500px){.hero h1{font-size:32px}.hero p{max-width:340px}.buttons{justify-content:center}.contacts{grid-template-columns:1fr}.thumb{height:200px}}
+</style>
+</head>
+<body>
+<div class="bg"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+
+<button class="admin-toggle" id="adminToggle" onclick="toggleAdmin()">Admin Mode</button>
+<div class="admin-bar" id="adminBar">
+  <span>ADMIN MODE — Changes are saved on this device</span>
+  <div class="acts">
+    <button class="btn-save" onclick="saveData()">Save</button>
+    <button class="btn-export" onclick="exportHTML()">Download Final HTML</button>
+    <button class="btn-close" onclick="toggleAdmin()">Close</button>
+  </div>
+</div>
+
+<div class="video-modal" id="videoModal" onclick="closeVideo(event)">
+  <div class="video-box-wrap">
+    <button class="video-close" onclick="closeVideo()">&times;</button>
+    <div class="video-box" id="videoBox"></div>
+    <div class="video-fallback" id="videoFallback">
+      <p id="fallbackText">If Google Drive does not allow playback, open the original file.</p>
+      <a id="fallbackLink" href="#" target="_blank" rel="noopener">Open Video</a>
+    </div>
+  </div>
+</div>
+
+<div class="admin-modal" id="adminModal" onclick="if(event.target===this)closeAdminModal()">
+  <div class="admin-form" id="adminForm"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="app" id="app">
+<aside class="sidebar">
+  <div class="logo">MN</div>
+  <div class="logo-sub">CAR VIDEO EDITOR</div>
+  <div class="nav">
+    <button class="active" onclick="go(0)">Home</button>
+    <button onclick="go(1)">About</button>
+    <button onclick="go(2)">Car Edits</button>
+    <button onclick="go(3)">Skills</button>
+    <button onclick="go(4)">Reviews</button>
+    <button onclick="go(5)">Contact</button>
+  </div>
+  <div class="side-bottom">
+    <div class="social">
+      <a id="linkInsta" href="https://www.instagram.com/itzmuhammadnihaal/" target="_blank" rel="noopener">IG</a>
+      <a id="linkYT" href="https://youtube.com/" target="_blank" rel="noopener">YT</a>
+      <a id="linkLinkedIn" href="https://linkedin.com/" target="_blank" rel="noopener">in</a>
+    </div>
+    <button class="hire" onclick="go(5)">Hire Me</button>
+  </div>
+</aside>
+
+<main class="main">
+<div class="track" id="track">
+
+<section class="section">
+<div class="hero">
+<div class="hero-left">
+  <div class="badge"><span class="dot"></span>Available for Freelance Projects</div>
+  <h1>Mohamed <span class="gradient">Nihaal</span></h1>
+  <div class="hero-title">CapCut Video Editor — Car Cinematic Edits</div>
+  <p id="heroDesc">I create cinematic car edits, automotive reels, short-form videos and high-energy visual content designed to make every frame stand out.</p>
+  <div class="buttons">
+    <button class="btn primary" onclick="go(2)">View Car Edits</button>
+    <button class="btn secondary" onclick="go(5)">Contact Me</button>
+  </div>
+  <div class="stats">
+    <div class="stat"><strong id="statEdits">4</strong><span>Car Edits</span></div>
+    <div class="stat"><strong>50+</strong><span>Projects</span></div>
+    <div class="stat"><strong>100%</strong><span>Passion</span></div>
+  </div>
+</div>
+<div class="hero-profile" id="profileBox">
+  <div class="profile-placeholder">MN</div>
+</div>
+</div>
+</section>
+
+<section class="section">
+  <div class="title">About Me</div>
+  <div class="subtitle">Creative editing with a focus on cars, motion and cinematic storytelling.</div>
+  <div class="about-grid">
+    <div class="card">
+      <button class="admin-btn edit" onclick="openEditor('about')" title="Edit">✎</button>
+      <h3>Who I Am</h3>
+      <p id="aboutText">I'm Mohamed Nihaal, a passionate video editor focused on creating clean, cinematic and energetic automotive content. I turn raw clips into engaging edits made for Instagram Reels, YouTube Shorts and social media.</p>
+    </div>
+    <div class="card">
+      <button class="admin-btn edit" onclick="openEditor('services')" title="Edit">✎</button>
+      <h3>What I Do</h3>
+      <p id="servicesText">Car reels, cinematic edits, beat-sync edits, transitions, color enhancement, speed ramps, short-form content and social-media-ready videos.</p>
+      <div class="tags" id="serviceTags">
+        <span class="tag">Car Edits</span><span class="tag">Reels</span><span class="tag">CapCut</span><span class="tag">Cinematic</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="title">Car Edits</div>
+  <div class="subtitle">Click any project to watch. In Admin Mode you can edit, replace or delete videos.</div>
+  <div class="projects" id="projects"></div>
+  <button class="admin-add-btn" onclick="openEditor('project',-1)">＋ Add New Car Edit</button>
+</section>
+
+<section class="section">
+  <div class="title">Skills</div>
+  <div class="subtitle">Tools and editing skills I use for short-form content.</div>
+  <div class="skills" id="skills"></div>
+  <button class="admin-add-btn" onclick="openEditor('skill',-1)">＋ Add Skill</button>
+</section>
+
+<section class="section">
+  <div class="title">Reviews</div>
+  <div class="subtitle">Client feedback and project experience.</div>
+  <div class="reviews" id="reviews"></div>
+  <button class="admin-add-btn" onclick="openEditor('review',-1)">＋ Add Review</button>
+</section>
+
+<section class="section">
+  <div class="title">Let's Work Together</div>
+  <div class="subtitle">Have a car video that needs a cinematic edit? Contact me.</div>
+  <div class="contacts">
+    <a class="contact" id="whatsappLink" href="#" target="_blank" rel="noopener">
+      <div class="contact-icon">💬</div><h4>WhatsApp</h4><p id="whatsappText">9500683699</p>
+    </a>
+    <a class="contact" id="instagramLink" href="https://www.instagram.com/itzmuhammadnihaal/" target="_blank" rel="noopener">
+      <div class="contact-icon">📸</div><h4>Instagram</h4><p>@itzmuhammadnihaal</p>
+    </a>
+    <a class="contact" href="mailto:hello@example.com">
+      <div class="contact-icon">✉️</div><h4>Email</h4><p id="emailText">Available on request</p>
+    </a>
+  </div>
+  <div class="contact-cta">
+    <h3>Ready to create something cinematic?</h3>
+    <p>Send me your footage and let's turn it into a strong car edit.</p>
+    <button class="btn primary" onclick="openWhatsApp()">Message on WhatsApp</button>
+  </div>
+</section>
+
+</div></main>
+</div>
+
+<div class="mobile-nav">
+  <button class="active" onclick="go(0)">⌂<span>Home</span></button>
+  <button onclick="go(1)">◎<span>About</span></button>
+  <button onclick="go(2)">▶<span>Edits</span></button>
+  <button onclick="go(3)">★<span>Skills</span></button>
+  <button onclick="go(5)">✉<span>Contact</span></button>
+</div>
+
+<script>
+const DEFAULT_DATA = {
+  profileImage:"",
+  heroDesc:"I create cinematic car edits, automotive reels, short-form videos and high-energy visual content designed to make every frame stand out.",
+  aboutText:"I'm Mohamed Nihaal, a passionate video editor focused on creating clean, cinematic and energetic automotive content. I turn raw clips into engaging edits made for Instagram Reels, YouTube Shorts and social media.",
+  servicesText:"Car reels, cinematic edits, beat-sync edits, transitions, color enhancement, speed ramps, short-form content and social-media-ready videos.",
+  tags:["Car Edits","Reels","CapCut","Cinematic"],
+  whatsapp:"9500683699",
+  instagram:"https://www.instagram.com/itzmuhammadnihaal/",
+  youtube:"https://youtube.com/",
+  linkedin:"https://linkedin.com/",
+  email:"Available on request",
+  projects:[
+    {title:"Cinematic Car Edit 01",desc:"High-energy automotive edit",tag:"Cinematic",source:"drive",url:"https://drive.google.com/file/d/1LIR4PH3eTwanLb6aNrusNkWVX0oK4sNd/view?usp=drivesdk",media:""},
+    {title:"Car Edit 02",desc:"Smooth transitions & beat sync",tag:"Beat Sync",source:"drive",url:"https://drive.google.com/file/d/1h3w1cNML77L8FKUtZ9Nkk4qPMnZ4UtNr/view?usp=drivesdk",media:""},
+    {title:"Car Edit 03",desc:"Cinematic automotive reel",tag:"Reel",source:"drive",url:"https://drive.google.com/file/d/19ehw6GzJM-fSdAzNQ920ctmA--IvP9Qu/view?usp=drivesdk",media:""},
+    {title:"Car Edit 04",desc:"Dynamic speed-ramp edit",tag:"Speed Ramp",source:"drive",url:"https://drive.google.com/file/d/1uIq2ERH7lVXTKuxK_ryAC4RWn-w_XJvg/view?usp=drivesdk",media:""}
+  ],
+  skills:[
+    {name:"CapCut Pro",value:95},
+    {name:"Cinematic Editing",value:92},
+    {name:"Reels / Shorts",value:90},
+    {name:"Color & Effects",value:85}
+  ],
+  reviews:[
+    {text:"Clean editing, great timing and a strong cinematic feel.",name:"Client",role:"Car Content"},
+    {text:"The transitions and beat sync made the footage feel much more professional.",name:"Client",role:"Automotive Reel"},
+    {text:"Fast communication and creative editing style.",name:"Client",role:"Social Media"}
+  ]
+};
+
+let data = loadData();
+let currentPage = 0;
+let admin = false;
+
+function clone(o){return JSON.parse(JSON.stringify(o))}
+function loadData(){
+  try{
+    const saved=localStorage.getItem("mn_portfolio_data");
+    if(saved){
+      const parsed=JSON.parse(saved);
+      return Object.assign(clone(DEFAULT_DATA),parsed);
+    }
+  }catch(e){}
+  return clone(DEFAULT_DATA);
+}
+function saveData(){
+  localStorage.setItem("mn_portfolio_data",JSON.stringify(data));
+  renderAll();
+  toast("Saved successfully on this device");
+}
+function toast(msg){
+  const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2200);
+}
+function toggleAdmin(){
+  admin=!admin;
+  document.getElementById("app").classList.toggle("admin-mode",admin);
+  document.getElementById("adminBar").classList.toggle("active",admin);
+  document.getElementById("adminToggle").style.display=admin?"none":"block";
+}
+function go(i){
+  currentPage=i;
+  document.getElementById("track").style.transform=`translateX(-${i*100}%)`;
+  document.querySelectorAll(".nav button").forEach((b,n)=>b.classList.toggle("active",n===i));
+  document.querySelectorAll(".mobile-nav button").forEach((b,n)=>b.classList.toggle("active",n===i || (i===5&&n===4)));
+}
+
+function drivePreview(url){
+  const m=(url||"").match(/\/d\/([a-zA-Z0-9_-]+)/);
+  return m ? `https://drive.google.com/file/d/${m[1]}/preview` : url;
+}
+function openVideo(index){
+  const p=data.projects[index]; if(!p)return;
+  const modal=document.getElementById("videoModal");
+  const box=document.getElementById("videoBox");
+  const fallback=document.getElementById("videoFallback");
+  const link=document.getElementById("fallbackLink");
+  box.innerHTML="";
+  fallback.style.display="block";
+  link.href=p.url||"#";
+  if(p.source==="local" && p.media){
+    const v=document.createElement("video");
+    v.controls=true;v.autoplay=true;v.playsInline=true;v.src=p.media;
+    box.appendChild(v);
+    fallback.style.display="none";
+  }else{
+    const iframe=document.createElement("iframe");
+    iframe.src=drivePreview(p.url);
+    iframe.allow="autoplay; fullscreen";
+    iframe.allowFullscreen=true;
+    box.appendChild(iframe);
+  }
+  modal.classList.add("active");
+}
+function closeVideo(e){
+  if(!e || e.target===document.getElementById("videoModal") || e.currentTarget===undefined){
+    document.getElementById("videoModal").classList.remove("active");
+    document.getElementById("videoBox").innerHTML="";
+  }
+}
+
+function renderAll(){
+  document.getElementById("heroDesc").textContent=data.heroDesc;
+  document.getElementById("aboutText").textContent=data.aboutText;
+  document.getElementById("servicesText").textContent=data.servicesText;
+  document.getElementById("statEdits").textContent=data.projects.length;
+  document.getElementById("whatsappText").textContent=data.whatsapp;
+  document.getElementById("whatsappLink").href="https://wa.me/"+data.whatsapp.replace(/\D/g,"");
+  document.getElementById("instagramLink").href=data.instagram;
+  document.getElementById("linkInsta").href=data.instagram;
+  document.getElementById("linkYT").href=data.youtube;
+  document.getElementById("linkLinkedIn").href=data.linkedin;
+  document.getElementById("emailText").textContent=data.email;
+  document.getElementById("serviceTags").innerHTML=data.tags.map(x=>`<span class="tag">${esc(x)}</span>`).join("");
+  renderProfile();renderProjects();renderSkills();renderReviews();
+}
+function renderProfile(){
+  const box=document.getElementById("profileBox");
+  box.innerHTML=data.profileImage ? `<img src="${data.profileImage}" alt="Mohamed Nihaal">` : `<div class="profile-placeholder">MN</div>`;
+}
+function renderProjects(){
+  const wrap=document.getElementById("projects");wrap.innerHTML="";
+  data.projects.forEach((p,i)=>{
+    const el=document.createElement("div");el.className="project";el.onclick=()=>openVideo(i);
+    let thumb="";
+    if(p.source==="local"&&p.media){
+      thumb=`<video src="${p.media}" muted playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover"></video>`;
+    }else{
+      thumb=`<div class="car">🚘</div>`;
+    }
+    el.innerHTML=`${thumb}<div class="play">▶</div><div class="watch">WATCH</div>
+      <button class="admin-btn edit" onclick="event.stopPropagation();openEditor('project',${i})" title="Edit / Replace">✎</button>
+      <button class="admin-btn del" onclick="event.stopPropagation();deleteItem('project',${i})" title="Delete">🗑</button>
+      <div class="project-info"><h4>${esc(p.title)}</h4><p>${esc(p.desc)}</p><div class="project-meta"><span class="project-tag">${esc(p.tag)}</span><span class="project-tag">${p.source==="local"?"LOCAL VIDEO":"GOOGLE DRIVE"}</span></div></div>`;
+    wrap.appendChild(el);
+  });
+}
+function renderSkills(){
+  const wrap=document.getElementById("skills");wrap.innerHTML="";
+  data.skills.forEach((s,i)=>{
+    const el=document.createElement("div");el.className="skill";
+    el.innerHTML=`<button class="admin-btn edit" onclick="openEditor('skill',${i})">✎</button><button class="admin-btn del" onclick="deleteItem('skill',${i})">🗑</button>
+      <div class="skill-head"><span>${esc(s.name)}</span><b>${s.value}%</b></div><div class="bar"><div class="fill" style="width:${s.value}%"></div></div>`;
+    wrap.appendChild(el);
+  });
+}
+function renderReviews(){
+  const wrap=document.getElementById("reviews");wrap.innerHTML="";
+  data.reviews.forEach((r,i)=>{
+    const el=document.createElement("div");el.className="card";
+    el.innerHTML=`<button class="admin-btn edit" onclick="openEditor('review',${i})">✎</button><button class="admin-btn del" onclick="deleteItem('review',${i})">🗑</button>
+      <div class="stars">★★★★★</div><div class="review-text">“${esc(r.text)}”</div><div class="author"><div class="avatar">${esc((r.name||"C").charAt(0))}</div><div><b style="font-size:12px">${esc(r.name)}</b><div style="font-size:10px;color:var(--muted)">${esc(r.role)}</div></div></div>`;
+    wrap.appendChild(el);
+  });
+}
+function esc(s){
+  return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+
+function openEditor(type,index=0){
+  const form=document.getElementById("adminForm");
+  let title="",body="";
+  if(type==="project"){
+    const p=index>=0?data.projects[index]:{title:"New Car Edit",desc:"",tag:"Cinematic",source:"drive",url:"",media:""};
+    title=index>=0?"Edit / Replace Car Video":"Add Car Video";
+    body=`<label>Project title</label><input id="fTitle" value="${esc(p.title)}">
+      <label>Description</label><input id="fDesc" value="${esc(p.desc)}">
+      <label>Tag</label><input id="fTag" value="${esc(p.tag)}">
+      <label>Video source</label><select id="fSource" onchange="toggleVideoFields()"><option value="drive" ${p.source==="drive"?"selected":""}>Google Drive</option><option value="local" ${p.source==="local"?"selected":""}>Upload from phone / gallery</option></select>
+      <div id="driveField"><label>Google Drive link</label><input id="fUrl" value="${esc(p.url)}" placeholder="Paste Google Drive file link"></div>
+      <div id="localField" style="display:none"><label>Replace with video file</label><input id="fFile" type="file" accept="video/*"><div class="file-note">Choose a video from your phone/gallery. The selected video is converted into the final HTML, so it can work without Google Drive.</div></div>
+      <div class="acts"><button class="form-ok" onclick="saveEditor('project',${index})">Save</button><button class="form-no" onclick="closeAdminModal()">Cancel</button></div>`;
+  }else if(type==="skill"){
+    const s=index>=0?data.skills[index]:{name:"New Skill",value:80};
+    title=index>=0?"Edit Skill":"Add Skill";
+    body=`<label>Skill name</label><input id="fName" value="${esc(s.name)}"><label>Percentage</label><input id="fValue" type="number" min="0" max="100" value="${s.value}"><div class="acts"><button class="form-ok" onclick="saveEditor('skill',${index})">Save</button><button class="form-no" onclick="closeAdminModal()">Cancel</button></div>`;
+  }else if(type==="review"){
+    const r=index>=0?data.reviews[index]:{text:"",name:"Client",role:""};
+    title=index>=0?"Edit Review":"Add Review";
+    body=`<label>Review</label><textarea id="fText">${esc(r.text)}</textarea><label>Name</label><input id="fName" value="${esc(r.name)}"><label>Role</label><input id="fRole" value="${esc(r.role)}"><div class="acts"><button class="form-ok" onclick="saveEditor('review',${index})">Save</button><button class="form-no" onclick="closeAdminModal()">Cancel</button></div>`;
+  }else if(type==="about"){
+    title="Edit About";
+    body=`<label>About text</label><textarea id="fText">${esc(data.aboutText)}</textarea><div class="acts"><button class="form-ok" onclick="saveEditor('about',0)">Save</button><button class="form-no" onclick="closeAdminModal()">Cancel</button></div>`;
+  }else if(type==="services"){
+    title="Edit Services";
+    body=`<label>Services text</label><textarea id="fText">${esc(data.servicesText)}</textarea><label>Tags (comma separated)</label><input id="fTags" value="${esc(data.tags.join(", "))}"><div class="acts"><button class="form-ok" onclick="saveEditor('services',0)">Save</button><button class="form-no" onclick="closeAdminModal()">Cancel</button></div>`;
+  }
+  form.innerHTML=`<h3>${title}</h3>${body}`;
+  document.getElementById("adminModal").classList.add("active");
+  if(type==="project")toggleVideoFields();
+}
+function toggleVideoFields(){
+  const src=document.getElementById("fSource")?.value;
+  if(!src)return;
+  document.getElementById("driveField").style.display=src==="drive"?"block":"none";
+  document.getElementById("localField").style.display=src==="local"?"block":"none";
+}
+function closeAdminModal(){document.getElementById("adminModal").classList.remove("active")}
+
+async function saveEditor(type,index){
+  if(type==="project"){
+    const src=document.getElementById("fSource").value;
+    const p=index>=0?data.projects[index]:{};
+    p.title=document.getElementById("fTitle").value.trim()||"Car Edit";
+    p.desc=document.getElementById("fDesc").value.trim();
+    p.tag=document.getElementById("fTag").value.trim()||"Cinematic";
+    p.source=src;
+    if(src==="drive"){
+      p.url=document.getElementById("fUrl").value.trim();
+      p.media="";
+    }else{
+      const file=document.getElementById("fFile").files[0];
+      if(file){
+        if(!file.type.startsWith("video/")){toast("Please select a video file");return}
+        p.media=await fileToDataURL(file);
+        p.url="";
+      }else if(!p.media){
+        toast("Choose a video file first");return;
+      }
+    }
+    if(index<0)data.projects.push(p);
+  }else if(type==="skill"){
+    const s={name:document.getElementById("fName").value.trim()||"Skill",value:Math.max(0,Math.min(100,Number(document.getElementById("fValue").value)||0))};
+    if(index<0)data.skills.push(s);else data.skills[index]=s;
+  }else if(type==="review"){
+    const r={text:document.getElementById("fText").value.trim(),name:document.getElementById("fName").value.trim()||"Client",role:document.getElementById("fRole").value.trim()};
+    if(index<0)data.reviews.push(r);else data.reviews[index]=r;
+  }else if(type==="about"){data.aboutText=document.getElementById("fText").value.trim()}
+  else if(type==="services"){data.servicesText=document.getElementById("fText").value.trim();data.tags=document.getElementById("fTags").value.split(",").map(x=>x.trim()).filter(Boolean)}
+  closeAdminModal();saveData();
+}
+function deleteItem(type,index){
+  if(!confirm("Delete this item?"))return;
+  if(type==="project")data.projects.splice(index,1);
+  if(type==="skill")data.skills.splice(index,1);
+  if(type==="review")data.reviews.splice(index,1);
+  saveData();
+}
+function fileToDataURL(file){
+  return new Promise((resolve,reject)=>{
+    const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file);
+  });
+}
+
+function openWhatsApp(){
+  const n=data.whatsapp.replace(/\D/g,"");
+  window.open("https://wa.me/"+n,"_blank");
+}
+
+async function exportHTML(){
+  // Export the current data directly into this HTML so the client version
+  // has no Admin Mode button and keeps locally uploaded media.
+  const clean=clone(data);
+  const serialized=JSON.stringify(clean).replace(/</g,"\\u003c");
+  let source=document.documentElement.outerHTML;
+  source=source.replace(/const DEFAULT_DATA = \{[\s\S]*?\n\};/,`const DEFAULT_DATA = ${serialized};`);
+  source=source.replace(/let data = loadData\(\);/,`let data = clone(DEFAULT_DATA);`);
+  source=source.replace(/<button class="admin-toggle" id="adminToggle" onclick="toggleAdmin\(\)">Admin Mode<\/button>/,"");
+  source=source.replace(/<div class="admin-bar" id="adminBar">[\s\S]*?<\/div>\s*<div class="video-modal"/,'<div class="video-modal"');
+  source=source.replace(/<button class="admin-add-btn" onclick="openEditor\('project',-1\)">[\s\S]*?<\/button>/g,"");
+  source=source.replace(/<button class="admin-add-btn" onclick="openEditor\('skill',-1\)">[\s\S]*?<\/button>/g,"");
+  source=source.replace(/<button class="admin-add-btn" onclick="openEditor\('review',-1\)">[\s\S]*?<\/button>/g,"");
+  source=source.replace(/\.admin-mode \.admin-btn\{display:flex\}/g,".admin-mode .admin-btn{display:none}");
+  source=source.replace(/<div class="admin-modal"[\s\S]*?<\/div>\s*<\/div>/,"");
+  source=source.replace(/<div class="toast" id="toast"><\/div>/,"");
+  source=source.replace(/document\.getElementById\("app"\)\.classList\.toggle\("admin-mode",admin\);/g,"");
+  source=source.replace(/document\.getElementById\("adminBar"\)\.classList\.toggle\("active",admin\);/g,"");
+  source=source.replace(/document\.getElementById\("adminToggle"\)\.style\.display=admin\?"none":"block";/g,"");
+  source=source.replace(/function toggleAdmin\(\)\{[\s\S]*?\n\}/,"function toggleAdmin(){}");
+  source="<!DOCTYPE html>\n<html lang=\"en\">"+source.split("<html lang=\"en\">")[1];
+  const blob=new Blob([source],{type:"text/html;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");a.href=url;a.download="Mohamed_Nihaal_Car_Portfolio_Final.html";document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),3000);
+  toast("Final HTML downloaded");
+}
+
+renderAll();
+</script>
+</body>
+</html>
