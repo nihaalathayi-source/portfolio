@@ -230,7 +230,7 @@ button{cursor:pointer}
   <div class="title">Let's Work Together</div>
   <div class="subtitle">Have a car video that needs a cinematic edit? Contact me.</div>
   <div class="contacts">
-    <a class="contact" id="whatsappLink" href="#" target="_blank" rel="noopener">
+    <a class="contact" id="whatsappLink" href="https://wa.me/9500683699" target="_blank" rel="noopener">
       <div class="contact-icon">💬</div><h4>WhatsApp</h4><p>Tap to chat</p>
     </a>
     <a class="contact" id="instagramLink" href="https://www.instagram.com/itzmuhammadnihaal/" target="_blank" rel="noopener">
@@ -337,60 +337,6 @@ function renderAll(){
   document.getElementById("aboutText").textContent=data.aboutText;
   document.getElementById("servicesText").textContent=data.servicesText;
   document.getElementById("statEdits").textContent=data.projects.length;
-  document.getElementById("whatsappLink").href="https://wa.me/"+data.whatsapp.replace(/\D/g,"");
   document.getElementById("instagramLink").href=data.instagram;
   document.getElementById("linkInsta").href=data.instagram;
-  document.getElementById("linkYT").href=data.youtube;
-  document.getElementById("linkLinkedIn").href=data.linkedin;
-  document.getElementById("emailText").textContent=data.email;
-  document.getElementById("serviceTags").innerHTML=data.tags.map(x=>`<span class="tag">${esc(x)}</span>`).join("");
-  renderProfile();renderProjects();renderSkills();renderReviews();
-}
-function renderProfile(){
-  const box=document.getElementById("profileBox");
-  box.innerHTML=data.profileImage ? `<img src="${data.profileImage}" alt="Mohamed Nihaal">` : `<div class="profile-placeholder">MN</div>`;
-}
-function renderProjects(){
-  const wrap=document.getElementById("projects");wrap.innerHTML="";
-  data.projects.forEach((p,i)=>{
-    const el=document.createElement("div");el.className="project";el.onclick=()=>openVideo(i);
-    let thumb="";
-    if(p.source==="local"&&p.media){
-      thumb=`<video src="${p.media}" muted playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover"></video>`;
-    }else{
-      thumb=`<div class="car">🚘</div>`;
-    }
-    el.innerHTML=`${thumb}<div class="play">▶</div><div class="watch">WATCH</div>
-      <div class="project-info"><h4>${esc(p.title)}</h4><p>${esc(p.desc)}</p><div class="project-meta"><span class="project-tag">${esc(p.tag)}</span><span class="project-tag">${p.source==="local"?"LOCAL VIDEO":"GOOGLE DRIVE"}</span></div></div>`;
-    wrap.appendChild(el);
-  });
-}
-function renderSkills(){
-  const wrap=document.getElementById("skills");wrap.innerHTML="";
-  data.skills.forEach((s)=>{
-    const el=document.createElement("div");el.className="skill";
-    el.innerHTML=`<div class="skill-head"><span>${esc(s.name)}</span><b>${s.value}%</b></div><div class="bar"><div class="fill" style="width:${s.value}%"></div></div>`;
-    wrap.appendChild(el);
-  });
-}
-function renderReviews(){
-  const wrap=document.getElementById("reviews");wrap.innerHTML="";
-  data.reviews.forEach((r)=>{
-    const el=document.createElement("div");el.className="card";
-    el.innerHTML=`<div class="stars">★★★★★</div><div class="review-text">"${esc(r.text)}"</div><div class="author"><div class="avatar">${esc((r.name||"C").charAt(0))}</div><div><b style="font-size:12px">${esc(r.name)}</b><div style="font-size:10px;color:var(--muted)">${esc(r.role)}</div></div></div>`;
-    wrap.appendChild(el);
-  });
-}
-function esc(s){
-  return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
-}
-
-function openWhatsApp(){
-  const n=data.whatsapp.replace(/\D/g,"");
-  window.open("https://wa.me/"+n,"_blank");
-}
-
-renderAll();
-</script>
-</body>
-</html>
+  document.getElementById("linkYT")
