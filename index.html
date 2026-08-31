@@ -6,6 +6,8 @@
 
 <title>Mohamed Nihaal - Car Video Editor</title>
 
+<meta name="description" content="Mohamed Nihaal - Car Video Editor creating cinematic automotive reels, car edits and short-form videos.">
+
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 
@@ -48,6 +50,8 @@ select{
 button{
   cursor:pointer;
 }
+
+/* BACKGROUND */
 
 .bg{
   position:fixed;
@@ -128,11 +132,7 @@ button{
   font-size:30px;
   font-weight:800;
   letter-spacing:3px;
-  background:linear-gradient(
-    135deg,
-    var(--blue),
-    var(--purple)
-  );
+  background:linear-gradient(135deg,var(--blue),var(--purple));
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
@@ -192,6 +192,12 @@ button{
   justify-content:center;
   color:#fff;
   text-decoration:none;
+  transition:.3s;
+}
+
+.social a:hover{
+  transform:translateY(-3px);
+  border-color:var(--blue);
 }
 
 .hire{
@@ -201,11 +207,7 @@ button{
   border-radius:10px;
   color:#fff;
   font-weight:700;
-  background:linear-gradient(
-    135deg,
-    var(--blue),
-    var(--purple)
-  );
+  background:linear-gradient(135deg,var(--blue),var(--purple));
 }
 
 /* MAIN */
@@ -259,6 +261,7 @@ button{
   height:8px;
   border-radius:50%;
   background:var(--success);
+  box-shadow:0 0 10px var(--success);
 }
 
 .hero h1{
@@ -269,12 +272,7 @@ button{
 
 .gradient{
   display:block;
-  background:linear-gradient(
-    135deg,
-    var(--blue),
-    var(--purple),
-    var(--pink)
-  );
+  background:linear-gradient(135deg,var(--blue),var(--purple),var(--pink));
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
@@ -311,17 +309,18 @@ button{
 .primary{
   border:0;
   color:#fff;
-  background:linear-gradient(
-    135deg,
-    var(--blue),
-    var(--purple)
-  );
+  background:linear-gradient(135deg,var(--blue),var(--purple));
 }
 
 .secondary{
   background:var(--glass);
   border:1px solid var(--border);
   color:#fff;
+}
+
+.primary:hover,
+.secondary:hover{
+  transform:translateY(-2px);
 }
 
 .stats{
@@ -332,11 +331,7 @@ button{
 .stat strong{
   display:block;
   font-size:30px;
-  background:linear-gradient(
-    135deg,
-    var(--blue),
-    var(--purple)
-  );
+  background:linear-gradient(135deg,var(--blue),var(--purple));
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
@@ -362,11 +357,7 @@ button{
     0 25px 70px rgba(0,0,0,.6);
   position:relative;
   flex-shrink:0;
-  background:linear-gradient(
-    135deg,
-    #10152f,
-    #070a19
-  );
+  background:linear-gradient(135deg,#10152f,#070a19);
 }
 
 .hero-profile img{
@@ -384,11 +375,7 @@ button{
   justify-content:center;
   font-size:85px;
   font-weight:800;
-  background:linear-gradient(
-    135deg,
-    #111a3c,
-    #080b18
-  );
+  background:linear-gradient(135deg,#111a3c,#080b18);
   color:rgba(255,255,255,.18);
 }
 
@@ -421,7 +408,6 @@ button{
   border-radius:16px;
   backdrop-filter:blur(16px);
   transition:.3s;
-  position:relative;
 }
 
 .card:hover{
@@ -471,7 +457,6 @@ button{
   border-radius:16px;
   cursor:pointer;
   transition:.4s;
-  position:relative;
 }
 
 .project:hover{
@@ -486,12 +471,7 @@ button{
   display:flex;
   align-items:center;
   justify-content:center;
-  background:
-    radial-gradient(
-      circle,
-      rgba(0,212,255,.2),
-      #0a0f2e
-    );
+  background:radial-gradient(circle,rgba(0,212,255,.2),#0a0f2e);
   overflow:hidden;
 }
 
@@ -594,11 +574,7 @@ button{
 
 .fill{
   height:100%;
-  background:linear-gradient(
-    90deg,
-    var(--blue),
-    var(--purple)
-  );
+  background:linear-gradient(90deg,var(--blue),var(--purple));
   border-radius:5px;
 }
 
@@ -635,11 +611,7 @@ button{
   display:flex;
   align-items:center;
   justify-content:center;
-  background:linear-gradient(
-    135deg,
-    var(--blue),
-    var(--purple)
-  );
+  background:linear-gradient(135deg,var(--blue),var(--purple));
   font-weight:700;
 }
 
@@ -718,7 +690,6 @@ button{
   justify-content:center;
   z-index:2000;
   padding:20px;
-  flex-direction:column;
 }
 
 .video-modal.active{
@@ -772,11 +743,7 @@ button{
 .video-fallback a{
   display:inline-block;
   padding:10px 18px;
-  background:linear-gradient(
-    135deg,
-    var(--blue),
-    var(--purple)
-  );
+  background:linear-gradient(135deg,var(--blue),var(--purple));
   color:#fff;
   text-decoration:none;
   border-radius:8px;
@@ -922,41 +889,32 @@ button{
 </div>
 
 <!-- VIDEO MODAL -->
-<div
-  class="video-modal"
-  id="videoModal"
-  onclick="closeVideo(event)"
->
+<div class="video-modal" id="videoModal">
 
   <div class="video-box-wrap">
 
     <button
       class="video-close"
-      onclick="closeVideo()"
-      aria-label="Close"
+      id="videoClose"
+      aria-label="Close video"
     >
       &times;
     </button>
 
-    <div
-      class="video-box"
-      id="videoBox"
-    ></div>
+    <div class="video-box" id="videoBox"></div>
 
-    <div
-      class="video-fallback"
-      id="videoFallback"
-    >
+    <div class="video-fallback" id="videoFallback">
 
-      <p id="fallbackText">
-        If Google Drive does not allow playback, open the original file.
+      <p>
+        If Google Drive does not allow playback,
+        open the original video.
       </p>
 
       <a
         id="fallbackLink"
         href="#"
         target="_blank"
-        rel="noopener"
+        rel="noopener noreferrer"
       >
         Open Video
       </a>
@@ -972,9 +930,7 @@ button{
   <!-- SIDEBAR -->
   <aside class="sidebar">
 
-    <div class="logo">
-      MN
-    </div>
+    <div class="logo">MN</div>
 
     <div class="logo-sub">
       CAR VIDEO EDITOR
@@ -982,10 +938,7 @@ button{
 
     <div class="nav">
 
-      <button
-        class="active"
-        onclick="go(0)"
-      >
+      <button class="active" onclick="go(0)">
         Home
       </button>
 
@@ -1019,7 +972,7 @@ button{
           id="linkInsta"
           href="https://www.instagram.com/itzmuhammadnihaal/"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
         >
           IG
         </a>
@@ -1028,7 +981,7 @@ button{
           id="linkYT"
           href="https://youtube.com/"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
         >
           YT
         </a>
@@ -1037,7 +990,7 @@ button{
           id="linkLinkedIn"
           href="https://linkedin.com/"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
         >
           in
         </a>
@@ -1058,10 +1011,7 @@ button{
   <!-- MAIN -->
   <main class="main">
 
-    <div
-      class="track"
-      id="track"
-    >
+    <div class="track" id="track">
 
       <!-- HOME -->
       <section class="section">
@@ -1113,30 +1063,18 @@ button{
             <div class="stats">
 
               <div class="stat">
-                <strong id="statEdits">
-                  4
-                </strong>
-                <span>
-                  Car Edits
-                </span>
+                <strong id="statEdits">4</strong>
+                <span>Car Edits</span>
               </div>
 
               <div class="stat">
-                <strong>
-                  50+
-                </strong>
-                <span>
-                  Projects
-                </span>
+                <strong>50+</strong>
+                <span>Projects</span>
               </div>
 
               <div class="stat">
-                <strong>
-                  100%
-                </strong>
-                <span>
-                  Passion
-                </span>
+                <strong>100%</strong>
+                <span>Passion</span>
               </div>
 
             </div>
@@ -1147,11 +1085,9 @@ button{
             class="hero-profile"
             id="profileBox"
           >
-
             <div class="profile-placeholder">
               MN
             </div>
-
           </div>
 
         </div>
@@ -1174,9 +1110,7 @@ button{
 
           <div class="card">
 
-            <h3>
-              Who I Am
-            </h3>
+            <h3>Who I Am</h3>
 
             <p id="aboutText">
               I'm Mohamed Nihaal, a passionate video editor
@@ -1190,9 +1124,7 @@ button{
 
           <div class="card">
 
-            <h3>
-              What I Do
-            </h3>
+            <h3>What I Do</h3>
 
             <p id="servicesText">
               Car reels, cinematic edits, beat-sync edits,
@@ -1285,7 +1217,7 @@ button{
             id="whatsappLink"
             href="https://wa.me/919500683699"
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
           >
 
             <div class="contact-icon">
@@ -1303,4 +1235,14 @@ button{
           </a>
 
           <!-- INSTAGRAM -->
-         
+          <a
+            class="contact"
+            id="instagramLink"
+            href="https://www.instagram.com/itzmuhammadnihaal/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+
+            <div class="contact-icon">
+              📸
+           
