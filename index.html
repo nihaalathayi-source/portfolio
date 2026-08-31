@@ -98,24 +98,6 @@ button{cursor:pointer}
 .contact-cta h3{font-size:23px;margin-bottom:8px}
 .contact-cta p{color:var(--muted);font-size:13px;margin-bottom:20px}
 
-.admin-toggle{position:fixed;top:15px;right:15px;z-index:999;padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:var(--glass);backdrop-filter:blur(10px);color:#fff;font-size:12px;font-weight:600}
-.admin-bar{position:fixed;top:0;left:0;right:0;height:48px;background:linear-gradient(90deg,#17172b,#111d38);border-bottom:1px solid var(--border);display:none;align-items:center;justify-content:space-between;padding:0 20px;z-index:998;font-size:12px}
-.admin-bar.active{display:flex}
-.admin-bar span{color:var(--success);font-weight:700}
-.admin-bar .acts{display:flex;gap:8px}
-.admin-bar button{padding:7px 13px;border-radius:6px;border:0;font-size:11px;font-weight:700}
-.btn-save{background:var(--success);color:#000}
-.btn-export{background:var(--blue);color:#000}
-.btn-close{background:var(--danger);color:#fff}
-
-.admin-btn{display:none;position:absolute;top:8px;width:30px;height:30px;border-radius:7px;border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.65);color:#fff;align-items:center;justify-content:center;z-index:10}
-.admin-btn.edit{right:44px}.admin-btn.del{right:8px}
-.admin-btn:hover{background:var(--blue);color:#000}
-.admin-btn.del:hover{background:var(--danger);color:#fff}
-.admin-mode .admin-btn{display:flex}
-.admin-add-btn{display:none;margin-top:15px;padding:13px;border-radius:10px;border:1px dashed var(--blue);background:rgba(0,212,255,.05);color:var(--blue);font-weight:700;width:100%}
-.admin-mode .admin-add-btn{display:block}
-
 .video-modal{position:fixed;inset:0;background:rgba(0,0,0,.94);display:none;align-items:center;justify-content:center;z-index:2000;padding:20px;flex-direction:column}
 .video-modal.active{display:flex}
 .video-box-wrap{position:relative;width:100%;max-width:900px}
@@ -126,22 +108,7 @@ button{cursor:pointer}
 .video-fallback p{color:var(--muted);font-size:12px;margin-bottom:12px}
 .video-fallback a{display:inline-block;padding:10px 18px;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;text-decoration:none;border-radius:8px;font-size:12px;font-weight:700}
 
-.admin-modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:2001;padding:20px}
-.admin-modal.active{display:flex}
-.admin-form{background:#0f1225;border:1px solid var(--border);border-radius:16px;padding:25px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
-.admin-form h3{font-size:18px;margin-bottom:16px;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
-.admin-form label{display:block;font-size:11px;color:var(--muted);margin:13px 0 6px}
-.admin-form input,.admin-form textarea,.admin-form select{width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:#fff;outline:none}
-.admin-form textarea{min-height:80px;resize:vertical}
-.admin-form input:focus,.admin-form textarea:focus{border-color:var(--blue)}
-.admin-form .acts{display:flex;gap:10px;margin-top:20px}
-.admin-form .acts button{flex:1;padding:11px;border-radius:8px;border:0;font-weight:700}
-.form-ok{background:var(--success);color:#000}.form-no{background:var(--glass);border:1px solid var(--border)!important;color:#fff}
-.file-note{font-size:10px;color:rgba(255,255,255,.4);margin-top:6px;line-height:1.5}
-
 .mobile-nav{display:none}
-.toast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;background:#10182a;border:1px solid var(--border);padding:11px 17px;border-radius:10px;font-size:12px;z-index:5000;transition:.3s}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 @media(max-width:900px){
 .sidebar{display:none}
@@ -157,25 +124,12 @@ button{cursor:pointer}
 .about-grid,.skills,.projects,.reviews{grid-template-columns:1fr}
 .contacts{grid-template-columns:1fr 1fr}
 .title{font-size:30px}
-.admin-toggle{top:auto;bottom:80px;right:12px}
-.admin-bar{top:auto;bottom:0;height:62px}
-.admin-bar span{display:none}
 }
 @media(max-width:500px){.hero h1{font-size:32px}.hero p{max-width:340px}.buttons{justify-content:center}.contacts{grid-template-columns:1fr}.thumb{height:200px}}
 </style>
 </head>
 <body>
 <div class="bg"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
-
-<button class="admin-toggle" id="adminToggle" onclick="toggleAdmin()">Admin Mode</button>
-<div class="admin-bar" id="adminBar">
-  <span>ADMIN MODE — Changes are saved on this device</span>
-  <div class="acts">
-    <button class="btn-save" onclick="saveData()">Save</button>
-    <button class="btn-export" onclick="exportHTML()">Download Final HTML</button>
-    <button class="btn-close" onclick="toggleAdmin()">Close</button>
-  </div>
-</div>
 
 <div class="video-modal" id="videoModal" onclick="closeVideo(event)">
   <div class="video-box-wrap">
@@ -187,12 +141,6 @@ button{cursor:pointer}
     </div>
   </div>
 </div>
-
-<div class="admin-modal" id="adminModal" onclick="if(event.target===this)closeAdminModal()">
-  <div class="admin-form" id="adminForm"></div>
-</div>
-
-<div class="toast" id="toast"></div>
 
 <div class="app" id="app">
 <aside class="sidebar">
@@ -247,12 +195,10 @@ button{cursor:pointer}
   <div class="subtitle">Creative editing with a focus on cars, motion and cinematic storytelling.</div>
   <div class="about-grid">
     <div class="card">
-      <button class="admin-btn edit" onclick="openEditor('about')" title="Edit">✎</button>
       <h3>Who I Am</h3>
       <p id="aboutText">I'm Mohamed Nihaal, a passionate video editor focused on creating clean, cinematic and energetic automotive content. I turn raw clips into engaging edits made for Instagram Reels, YouTube Shorts and social media.</p>
     </div>
     <div class="card">
-      <button class="admin-btn edit" onclick="openEditor('services')" title="Edit">✎</button>
       <h3>What I Do</h3>
       <p id="servicesText">Car reels, cinematic edits, beat-sync edits, transitions, color enhancement, speed ramps, short-form content and social-media-ready videos.</p>
       <div class="tags" id="serviceTags">
@@ -264,23 +210,20 @@ button{cursor:pointer}
 
 <section class="section">
   <div class="title">Car Edits</div>
-  <div class="subtitle">Click any project to watch. In Admin Mode you can edit, replace or delete videos.</div>
+  <div class="subtitle">Click any project to watch.</div>
   <div class="projects" id="projects"></div>
-  <button class="admin-add-btn" onclick="openEditor('project',-1)">＋ Add New Car Edit</button>
 </section>
 
 <section class="section">
   <div class="title">Skills</div>
   <div class="subtitle">Tools and editing skills I use for short-form content.</div>
   <div class="skills" id="skills"></div>
-  <button class="admin-add-btn" onclick="openEditor('skill',-1)">＋ Add Skill</button>
 </section>
 
 <section class="section">
   <div class="title">Reviews</div>
   <div class="subtitle">Client feedback and project experience.</div>
   <div class="reviews" id="reviews"></div>
-  <button class="admin-add-btn" onclick="openEditor('review',-1)">＋ Add Review</button>
 </section>
 
 <section class="section">
@@ -288,12 +231,12 @@ button{cursor:pointer}
   <div class="subtitle">Have a car video that needs a cinematic edit? Contact me.</div>
   <div class="contacts">
     <a class="contact" id="whatsappLink" href="#" target="_blank" rel="noopener">
-      <div class="contact-icon">💬</div><h4>WhatsApp</h4><p id="whatsappText">9500683699</p>
+      <div class="contact-icon">💬</div><h4>WhatsApp</h4><p>Tap to chat</p>
     </a>
     <a class="contact" id="instagramLink" href="https://www.instagram.com/itzmuhammadnihaal/" target="_blank" rel="noopener">
       <div class="contact-icon">📸</div><h4>Instagram</h4><p>@itzmuhammadnihaal</p>
     </a>
-    <a class="contact" href="mailto:hello@example.com">
+    <a class="contact" href="mailto:nihaalathayi@gmail.com">
       <div class="contact-icon">✉️</div><h4>Email</h4><p id="emailText">Available on request</p>
     </a>
   </div>
@@ -316,7 +259,7 @@ button{cursor:pointer}
 </div>
 
 <script>
-const DEFAULT_DATA = {
+const data = {
   profileImage:"",
   heroDesc:"I create cinematic car edits, automotive reels, short-form videos and high-energy visual content designed to make every frame stand out.",
   aboutText:"I'm Mohamed Nihaal, a passionate video editor focused on creating clean, cinematic and energetic automotive content. I turn raw clips into engaging edits made for Instagram Reels, YouTube Shorts and social media.",
@@ -346,36 +289,8 @@ const DEFAULT_DATA = {
   ]
 };
 
-let data = loadData();
 let currentPage = 0;
-let admin = false;
 
-function clone(o){return JSON.parse(JSON.stringify(o))}
-function loadData(){
-  try{
-    const saved=localStorage.getItem("mn_portfolio_data");
-    if(saved){
-      const parsed=JSON.parse(saved);
-      return Object.assign(clone(DEFAULT_DATA),parsed);
-    }
-  }catch(e){}
-  return clone(DEFAULT_DATA);
-}
-function saveData(){
-  localStorage.setItem("mn_portfolio_data",JSON.stringify(data));
-  renderAll();
-  toast("Saved successfully on this device");
-}
-function toast(msg){
-  const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"),2200);
-}
-function toggleAdmin(){
-  admin=!admin;
-  document.getElementById("app").classList.toggle("admin-mode",admin);
-  document.getElementById("adminBar").classList.toggle("active",admin);
-  document.getElementById("adminToggle").style.display=admin?"none":"block";
-}
 function go(i){
   currentPage=i;
   document.getElementById("track").style.transform=`translateX(-${i*100}%)`;
@@ -422,7 +337,6 @@ function renderAll(){
   document.getElementById("aboutText").textContent=data.aboutText;
   document.getElementById("servicesText").textContent=data.servicesText;
   document.getElementById("statEdits").textContent=data.projects.length;
-  document.getElementById("whatsappText").textContent=data.whatsapp;
   document.getElementById("whatsappLink").href="https://wa.me/"+data.whatsapp.replace(/\D/g,"");
   document.getElementById("instagramLink").href=data.instagram;
   document.getElementById("linkInsta").href=data.instagram;
@@ -447,27 +361,23 @@ function renderProjects(){
       thumb=`<div class="car">🚘</div>`;
     }
     el.innerHTML=`${thumb}<div class="play">▶</div><div class="watch">WATCH</div>
-      <button class="admin-btn edit" onclick="event.stopPropagation();openEditor('project',${i})" title="Edit / Replace">✎</button>
-      <button class="admin-btn del" onclick="event.stopPropagation();deleteItem('project',${i})" title="Delete">🗑</button>
       <div class="project-info"><h4>${esc(p.title)}</h4><p>${esc(p.desc)}</p><div class="project-meta"><span class="project-tag">${esc(p.tag)}</span><span class="project-tag">${p.source==="local"?"LOCAL VIDEO":"GOOGLE DRIVE"}</span></div></div>`;
     wrap.appendChild(el);
   });
 }
 function renderSkills(){
   const wrap=document.getElementById("skills");wrap.innerHTML="";
-  data.skills.forEach((s,i)=>{
+  data.skills.forEach((s)=>{
     const el=document.createElement("div");el.className="skill";
-    el.innerHTML=`<button class="admin-btn edit" onclick="openEditor('skill',${i})">✎</button><button class="admin-btn del" onclick="deleteItem('skill',${i})">🗑</button>
-      <div class="skill-head"><span>${esc(s.name)}</span><b>${s.value}%</b></div><div class="bar"><div class="fill" style="width:${s.value}%"></div></div>`;
+    el.innerHTML=`<div class="skill-head"><span>${esc(s.name)}</span><b>${s.value}%</b></div><div class="bar"><div class="fill" style="width:${s.value}%"></div></div>`;
     wrap.appendChild(el);
   });
 }
 function renderReviews(){
   const wrap=document.getElementById("reviews");wrap.innerHTML="";
-  data.reviews.forEach((r,i)=>{
+  data.reviews.forEach((r)=>{
     const el=document.createElement("div");el.className="card";
-    el.innerHTML=`<button class="admin-btn edit" onclick="openEditor('review',${i})">✎</button><button class="admin-btn del" onclick="deleteItem('review',${i})">🗑</button>
-      <div class="stars">★★★★★</div><div class="review-text">“${esc(r.text)}”</div><div class="author"><div class="avatar">${esc((r.name||"C").charAt(0))}</div><div><b style="font-size:12px">${esc(r.name)}</b><div style="font-size:10px;color:var(--muted)">${esc(r.role)}</div></div></div>`;
+    el.innerHTML=`<div class="stars">★★★★★</div><div class="review-text">"${esc(r.text)}"</div><div class="author"><div class="avatar">${esc((r.name||"C").charAt(0))}</div><div><b style="font-size:12px">${esc(r.name)}</b><div style="font-size:10px;color:var(--muted)">${esc(r.role)}</div></div></div>`;
     wrap.appendChild(el);
   });
 }
@@ -475,122 +385,9 @@ function esc(s){
   return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 }
 
-function openEditor(type,index=0){
-  const form=document.getElementById("adminForm");
-  let title="",body="";
-  if(type==="project"){
-    const p=index>=0?data.projects[index]:{title:"New Car Edit",desc:"",tag:"Cinematic",source:"drive",url:"",media:""};
-    title=index>=0?"Edit / Replace Car Video":"Add Car Video";
-    body=`<label>Project title</label><input id="fTitle" value="${esc(p.title)}">
-      <label>Description</label><input id="fDesc" value="${esc(p.desc)}">
-      <label>Tag</label><input id="fTag" value="${esc(p.tag)}">
-      <label>Video source</label><select id="fSource" onchange="toggleVideoFields()"><option value="drive" ${p.source==="drive"?"selected":""}>Google Drive</option><option value="local" ${p.source==="local"?"selected":""}>Upload from phone / gallery</option></select>
-      <div id="driveField"><label>Google Drive link</label><input id="fUrl" value="${esc(p.url)}" placeholder="Paste Google Drive file link"></div>
-      <div id="localField" style="display:none"><label>Replace with video file</label><input id="fFile" type="file" accept="video/*"><div class="file-note">Choose a video from your phone/gallery. The selected video is converted into the final HTML, so it can work without Google Drive.</div></div>
-      <div class="acts"><button class="form-ok" onclick="saveEditor('project',${index})">Save</button><button class="form-no" onclick="closeAdminModal()">Cancel</button></div>`;
-  }else if(type==="skill"){
-    const s=index>=0?data.skills[index]:{name:"New Skill",value:80};
-    title=index>=0?"Edit Skill":"Add Skill";
-    body=`<label>Skill name</label><input id="fName" value="${esc(s.name)}"><label>Percentage</label><input id="fValue" type="number" min="0" max="100" value="${s.value}"><div class="acts"><button class="form-ok" onclick="saveEditor('skill',${index})">Save</button><button class="form-no" onclick="closeAdminModal()">Cancel</button></div>`;
-  }else if(type==="review"){
-    const r=index>=0?data.reviews[index]:{text:"",name:"Client",role:""};
-    title=index>=0?"Edit Review":"Add Review";
-    body=`<label>Review</label><textarea id="fText">${esc(r.text)}</textarea><label>Name</label><input id="fName" value="${esc(r.name)}"><label>Role</label><input id="fRole" value="${esc(r.role)}"><div class="acts"><button class="form-ok" onclick="saveEditor('review',${index})">Save</button><button class="form-no" onclick="closeAdminModal()">Cancel</button></div>`;
-  }else if(type==="about"){
-    title="Edit About";
-    body=`<label>About text</label><textarea id="fText">${esc(data.aboutText)}</textarea><div class="acts"><button class="form-ok" onclick="saveEditor('about',0)">Save</button><button class="form-no" onclick="closeAdminModal()">Cancel</button></div>`;
-  }else if(type==="services"){
-    title="Edit Services";
-    body=`<label>Services text</label><textarea id="fText">${esc(data.servicesText)}</textarea><label>Tags (comma separated)</label><input id="fTags" value="${esc(data.tags.join(", "))}"><div class="acts"><button class="form-ok" onclick="saveEditor('services',0)">Save</button><button class="form-no" onclick="closeAdminModal()">Cancel</button></div>`;
-  }
-  form.innerHTML=`<h3>${title}</h3>${body}`;
-  document.getElementById("adminModal").classList.add("active");
-  if(type==="project")toggleVideoFields();
-}
-function toggleVideoFields(){
-  const src=document.getElementById("fSource")?.value;
-  if(!src)return;
-  document.getElementById("driveField").style.display=src==="drive"?"block":"none";
-  document.getElementById("localField").style.display=src==="local"?"block":"none";
-}
-function closeAdminModal(){document.getElementById("adminModal").classList.remove("active")}
-
-async function saveEditor(type,index){
-  if(type==="project"){
-    const src=document.getElementById("fSource").value;
-    const p=index>=0?data.projects[index]:{};
-    p.title=document.getElementById("fTitle").value.trim()||"Car Edit";
-    p.desc=document.getElementById("fDesc").value.trim();
-    p.tag=document.getElementById("fTag").value.trim()||"Cinematic";
-    p.source=src;
-    if(src==="drive"){
-      p.url=document.getElementById("fUrl").value.trim();
-      p.media="";
-    }else{
-      const file=document.getElementById("fFile").files[0];
-      if(file){
-        if(!file.type.startsWith("video/")){toast("Please select a video file");return}
-        p.media=await fileToDataURL(file);
-        p.url="";
-      }else if(!p.media){
-        toast("Choose a video file first");return;
-      }
-    }
-    if(index<0)data.projects.push(p);
-  }else if(type==="skill"){
-    const s={name:document.getElementById("fName").value.trim()||"Skill",value:Math.max(0,Math.min(100,Number(document.getElementById("fValue").value)||0))};
-    if(index<0)data.skills.push(s);else data.skills[index]=s;
-  }else if(type==="review"){
-    const r={text:document.getElementById("fText").value.trim(),name:document.getElementById("fName").value.trim()||"Client",role:document.getElementById("fRole").value.trim()};
-    if(index<0)data.reviews.push(r);else data.reviews[index]=r;
-  }else if(type==="about"){data.aboutText=document.getElementById("fText").value.trim()}
-  else if(type==="services"){data.servicesText=document.getElementById("fText").value.trim();data.tags=document.getElementById("fTags").value.split(",").map(x=>x.trim()).filter(Boolean)}
-  closeAdminModal();saveData();
-}
-function deleteItem(type,index){
-  if(!confirm("Delete this item?"))return;
-  if(type==="project")data.projects.splice(index,1);
-  if(type==="skill")data.skills.splice(index,1);
-  if(type==="review")data.reviews.splice(index,1);
-  saveData();
-}
-function fileToDataURL(file){
-  return new Promise((resolve,reject)=>{
-    const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file);
-  });
-}
-
 function openWhatsApp(){
   const n=data.whatsapp.replace(/\D/g,"");
   window.open("https://wa.me/"+n,"_blank");
-}
-
-async function exportHTML(){
-  // Export the current data directly into this HTML so the client version
-  // has no Admin Mode button and keeps locally uploaded media.
-  const clean=clone(data);
-  const serialized=JSON.stringify(clean).replace(/</g,"\\u003c");
-  let source=document.documentElement.outerHTML;
-  source=source.replace(/const DEFAULT_DATA = \{[\s\S]*?\n\};/,`const DEFAULT_DATA = ${serialized};`);
-  source=source.replace(/let data = loadData\(\);/,`let data = clone(DEFAULT_DATA);`);
-  source=source.replace(/<button class="admin-toggle" id="adminToggle" onclick="toggleAdmin\(\)">Admin Mode<\/button>/,"");
-  source=source.replace(/<div class="admin-bar" id="adminBar">[\s\S]*?<\/div>\s*<div class="video-modal"/,'<div class="video-modal"');
-  source=source.replace(/<button class="admin-add-btn" onclick="openEditor\('project',-1\)">[\s\S]*?<\/button>/g,"");
-  source=source.replace(/<button class="admin-add-btn" onclick="openEditor\('skill',-1\)">[\s\S]*?<\/button>/g,"");
-  source=source.replace(/<button class="admin-add-btn" onclick="openEditor\('review',-1\)">[\s\S]*?<\/button>/g,"");
-  source=source.replace(/\.admin-mode \.admin-btn\{display:flex\}/g,".admin-mode .admin-btn{display:none}");
-  source=source.replace(/<div class="admin-modal"[\s\S]*?<\/div>\s*<\/div>/,"");
-  source=source.replace(/<div class="toast" id="toast"><\/div>/,"");
-  source=source.replace(/document\.getElementById\("app"\)\.classList\.toggle\("admin-mode",admin\);/g,"");
-  source=source.replace(/document\.getElementById\("adminBar"\)\.classList\.toggle\("active",admin\);/g,"");
-  source=source.replace(/document\.getElementById\("adminToggle"\)\.style\.display=admin\?"none":"block";/g,"");
-  source=source.replace(/function toggleAdmin\(\)\{[\s\S]*?\n\}/,"function toggleAdmin(){}");
-  source="<!DOCTYPE html>\n<html lang=\"en\">"+source.split("<html lang=\"en\">")[1];
-  const blob=new Blob([source],{type:"text/html;charset=utf-8"});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");a.href=url;a.download="Mohamed_Nihaal_Car_Portfolio_Final.html";document.body.appendChild(a);a.click();a.remove();
-  setTimeout(()=>URL.revokeObjectURL(url),3000);
-  toast("Final HTML downloaded");
 }
 
 renderAll();
